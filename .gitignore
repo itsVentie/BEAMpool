@@ -4,5 +4,9 @@
 *.ez
 *.beam
 .fetch
+/.fetch
 erl_crash.dump
+/erl_crash.dump
+*.mix
+.DS_Store
 .env
