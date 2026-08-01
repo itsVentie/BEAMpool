@@ -24,6 +24,35 @@
 
 ---
 
+## Roadmap
+
+### Phase 1: Core Engine & Ingestion (MVP)
+- [x] **OTP Application Setup:** Initialize Elixir project with Supervision Trees.
+- [x] **Resilient WebSocket Ingestion:** Connect to EVM WSS nodes using Erlang's native `:gun` library for maximum compatibility and fault tolerance.
+- [x] **Pending Mempool Stream:** Subscribe to `newPendingTransactions` via JSON-RPC over WebSocket in real time.
+- [x] **Basic Supervision & Auto-Healing:** Automatic process restart on connection loss without dropping the whole application.
+
+---
+
+### Phase 2: In-Memory Storage & Processing Pipeline
+- [ ] **Lock-Free Deduplication (`ETS`):** Implement Erlang Term Storage table to filter duplicate TX hashes across multiple node streams with near-zero latency.
+- [ ] **Async Worker Pool (`Task.Supervisor`):** Spawn concurrent, isolated processes to fetch full transaction details via `eth_getTransactionByHash`.
+- [ ] **Multi-Node Pooling:** Support simultaneous connections to multiple RPC providers (Alchemy, Infura, QuickNode, local Geth/Reth) for maximum coverage.
+
+---
+
+### Phase 3: Calldata Decoding & Threat Inspection
+- [ ] **ABI & Calldata Parsing:** Extract function selectors (`bytes4`), addresses, and input parameters from raw calldata.
+- [ ] **DeFi Pattern Detection:** Identify high-volume Flash Loan borrows, Sandwich attacks, and suspicious DEX swaps (Uniswap V2/V3, Curve, Balancer).
+- [ ] **Rust Integration via NIFs (`Rustler`):** Offload heavy RLP encoding/decoding and ABI parsing to Rust for sub-millisecond execution.
+
+---
+
+### Phase 4: Alerting, Analytics & Production Readiness
+- [ ] **Real-time Event Streaming:** Broadcast flagged threat transactions via WebSockets or Webhooks (Discord, Telegram, Slack).
+- [ ] **Metrics & Monitoring:** Export PromEx / Telemetry metrics to Prometheus and Grafana dashboards for throughput analysis.
+- [ ] **Containerization:** Docker & Docker Compose setup for quick one-click deployment.
+
 ## Quick Start
 
 ### Prerequisites
